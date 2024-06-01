@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kafkaui-config
+  namespace: zookeeper-kafka
+data:
+  dynamic_config.yaml: |
+    auth:
+      type: DISABLED
+    kafka:
+      clusters:
+      - bootstrapServers: kafka:29092
+        name: KafkaLocal k8s
+        properties: {}
+        readOnly: false
+    rbac:
+      roles: []
+    webclient: {}
