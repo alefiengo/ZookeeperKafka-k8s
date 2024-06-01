@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: schema-registry
+  name: schema-registry
+  namespace: zookeeper-kafka
+spec:
+  selector:
+    matchLabels:
+      app: schema-registry
+  template:
+    metadata:
+      labels:
+        app: schema-registry
+    spec:
+      enableServiceLinks: false
+      containers:
+        - image: confluentinc/cp-schema-registry:latest
+          name: schema-registry
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8081
+              name: http-outport
+              protocol: TCP
+          env:
+            - name: SCHEMA_REGISTRY_HOST_NAME
+              value: "schema-registry"
+            - name: SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS
+              value: "kafka:29092"
+            - name: SCHEMA_REGISTRY_LISTENERS
+              value: "http://0.0.0.0:8081"
+          resources: {}
+      
